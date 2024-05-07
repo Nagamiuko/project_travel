@@ -1,0 +1,37 @@
+.menu-pop {
+    display: none;
+    position: absolute;
+    top: 25%;
+    right: -2rem; 
+    transform: translate(-50%, -50%);
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    height: 260px;
+}
+.menu-pop .btn-close{
+    display: flex;
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+} 
+@media screen and (max-width:550px) {
+    .menu-pop{
+        top: 13rem;
+        right: -3.5rem;
+    }
+}
+@media screen and (max-width:430px) {
+    .menu-pop{
+        top: 13rem;
+        right: -3.5rem;
+    }
+}
+@media screen and (max-width:390px) {
+    .menu-pop{
+        top: 13rem;
+        right: -3.5rem;
+    }
+}

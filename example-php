@@ -1,0 +1,28 @@
+    <div class="search-container">
+        <input type="text" id="searchInput" class="search-box" placeholder="Search...">
+        <button onclick="search()" class="search-button">Search</button>
+        <?php
+          if ($data && isset($data['regions'])) {
+            echo "<select name='' id=''>" ;
+            echo "<option value=''>เลือกภูมิภาค</option>";
+              foreach ($data['regions'] as $region) {
+                echo '<option value="' . $region['id'] . '">' . $region['name'] . '</option>';
+              }
+              echo "</select>"; 
+          } else {
+              echo 'ไม่สามารถดึงข้อมูลภูมิภาคได้ในขณะนี้';
+           }
+        ?>
+    </div>
+
+loop image json
+
+  $images = json_decode($data['image_travel'], true);
+    if ($images) {
+        foreach ($images as $img) { ?>
+            <div class="img">
+                <img src="<?php echo $img['file_path'] ?>" alt="">
+            </div>
+            <?php }
+    } 
+    ?>

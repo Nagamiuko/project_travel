@@ -1,0 +1,392 @@
+[
+	{
+		"_id" : 1,
+		"_name_th" : "กรุงเทพมหานคร",
+		"_name_en" : "Bangkok"
+	},
+	{
+		"_id" : 64,
+		"_name_th" : "กระบี่",
+		"_name_en" : "Krabi"
+	},
+	{
+		"_id" : 56,
+		"_name_th" : "กาญจนบุรี",
+		"_name_en" : "Kanchanaburi"
+	},
+	{
+		"_id" : 34,
+		"_name_th" : "กาฬสินธุ์",
+		"_name_en" : "Kalasin"
+	},
+	{
+		"_id" : 49,
+		"_name_th" : "กำแพงเพชร",
+		"_name_en" : "Kamphaeng Phet"
+	},
+	{
+		"_id" : 28,
+		"_name_th" : "ขอนแก่น",
+		"_name_en" : "Khon Kaen"
+	},
+	{
+		"_id" : 13,
+		"_name_th" : "จันทบุรี",
+		"_name_en" : "Chanthaburi"
+	},
+	{
+		"_id" : 15,
+		"_name_th" : "ฉะเชิงเทรา",
+		"_name_en" : "Chachoengsao"
+	},
+	{
+		"_id" : 11,
+		"_name_th" : "ชลบุรี",
+		"_name_en" : "Chon Buri"
+	},
+	{
+		"_id" : 9,
+		"_name_th" : "ชัยนาท",
+		"_name_en" : "Chai Nat"
+	},
+	{
+		"_id" : 25,
+		"_name_th" : "ชัยภูมิ",
+		"_name_en" : "Chaiyaphum"
+	},
+	{
+		"_id" : 69,
+		"_name_th" : "ชุมพร",
+		"_name_en" : "Chumphon"
+	},
+	{
+		"_id" : 45,
+		"_name_th" : "เชียงราย",
+		"_name_en" : "Chiang Rai"
+	},
+	{
+		"_id" : 38,
+		"_name_th" : "เชียงใหม่",
+		"_name_en" : "Chiang Mai"
+	},
+	{
+		"_id" : 72,
+		"_name_th" : "ตรัง",
+		"_name_en" : "Trang"
+	},
+	{
+		"_id" : 14,
+		"_name_th" : "ตราด",
+		"_name_en" : "Trat"
+	},
+	{
+		"_id" : 50,
+		"_name_th" : "ตาก",
+		"_name_en" : "Tak"
+	},
+	{
+		"_id" : 17,
+		"_name_th" : "นครนายก",
+		"_name_en" : "Nakhon Nayok"
+	},
+	{
+		"_id" : 58,
+		"_name_th" : "นครปฐม",
+		"_name_en" : "Nakhon Pathom"
+	},
+	{
+		"_id" : 36,
+		"_name_th" : "นครพนม",
+		"_name_en" : "Nakhon Phanom"
+	},
+	{
+		"_id" : 19,
+		"_name_th" : "นครราชสีมา",
+		"_name_en" : "Nakhon Ratchasima"
+	},
+	{
+		"_id" : 63,
+		"_name_th" : "นครศรีธรรมราช",
+		"_name_en" : "Nakhon Si Thammarat"
+	},
+	{
+		"_id" : 47,
+		"_name_th" : "นครสวรรค์",
+		"_name_en" : "Nakhon Sawan"
+	},
+	{
+		"_id" : 3,
+		"_name_th" : "นนทบุรี",
+		"_name_en" : "Nonthaburi"
+	},
+	{
+		"_id" : 76,
+		"_name_th" : "นราธิวาส",
+		"_name_en" : "Narathiwat"
+	},
+	{
+		"_id" : 43,
+		"_name_th" : "น่าน",
+		"_name_en" : "Nan"
+	},
+	{
+		"_id" : 77,
+		"_name_th" : "บึงกาฬ",
+		"_name_en" : "buogkan"
+	},
+	{
+		"_id" : 20,
+		"_name_th" : "บุรีรัมย์",
+		"_name_en" : "Buri Ram"
+	},
+	{
+		"_id" : 4,
+		"_name_th" : "ปทุมธานี",
+		"_name_en" : "Pathum Thani"
+	},
+	{
+		"_id" : 4,
+		"_name_th" : "ปทุมธานี",
+		"_name_en" : "Pathum Thani"
+	},
+	{
+		"_id" : 62,
+		"_name_th" : "ประจวบคีรีขันธ์",
+		"_name_en" : "Prachuap Khiri Khan"
+	},
+	{
+		"_id" : 16,
+		"_name_th" : "ปราจีนบุรี",
+		"_name_en" : "Prachin Buri"
+	},
+	{
+		"_id" : 74,
+		"_name_th" : "ปัตตานี",
+		"_name_en" : "Pattani"
+	},
+	{
+		"_id" : 5,
+		"_name_th" : "พระนครศรีอยุธยา",
+		"_name_en" : "Phra Nakhon Si Ayutthaya"
+	},
+	{
+		"_id" : 65,
+		"_name_th" : "พังงา",
+		"_name_en" : "Phangnga"
+	},
+	{
+		"_id" : 73,
+		"_name_th" : "พัทลุง",
+		"_name_en" : "Phatthalung"
+	},
+	{
+		"_id" : 53,
+		"_name_th" : "พิจิตร",
+		"_name_en" : "Phichit"
+	},
+	{
+		"_id" : 52,
+		"_name_th" : "พิษณุโลก",
+		"_name_en" : "Phitsanulok"
+	},
+	{
+		"_id" : 61,
+		"_name_th" : "เพชรบุรี",
+		"_name_en" : "Phetchaburi"
+	},
+	{
+		"_id" : 54,
+		"_name_th" : "เพชรบูรณ์",
+		"_name_en" : "Phetchabun"
+	},
+	{
+		"_id" : 42,
+		"_name_th" : "แพร่",
+		"_name_en" : "Phrae"
+	},
+	{
+		"_id" : 44,
+		"_name_th" : "พะเยา",
+		"_name_en" : "Phayao"
+	},
+	{
+		"_id" : 66,
+		"_name_th" : "ภูเก็ต",
+		"_name_en" : "Phuket"
+	},
+	{
+		"_id" : 32,
+		"_name_th" : "มหาสารคาม",
+		"_name_en" : "Maha Sarakham"
+	},
+	{
+		"_id" : 37,
+		"_name_th" : "มุกดาหาร",
+		"_name_en" : "Mukdahan"
+	},
+	{
+		"_id" : 46,
+		"_name_th" : "แม่ฮ่องสอน",
+		"_name_en" : "Mae Hong Son"
+	},
+	{
+		"_id" : 75,
+		"_name_th" : "ยะลา",
+		"_name_en" : "Yala"
+	},
+	{
+		"_id" : 24,
+		"_name_th" : "ยโสธร",
+		"_name_en" : "Yasothon"
+	},
+	{
+		"_id" : 33,
+		"_name_th" : "ร้อยเอ็ด",
+		"_name_en" : "Roi Et"
+	},
+	{
+		"_id" : 68,
+		"_name_th" : "ระนอง",
+		"_name_en" : "Ranong"
+	},
+	{
+		"_id" : 12,
+		"_name_th" : "ระยอง",
+		"_name_en" : "Rayong"
+	},
+	{
+		"_id" : 55,
+		"_name_th" : "ราชบุรี",
+		"_name_en" : "Ratchaburi"
+	},
+	{
+		"_id" : 7,
+		"_name_th" : "ลพบุรี",
+		"_name_en" : "Loburi"
+	},
+	{
+		"_id" : 40,
+		"_name_th" : "ลำปาง",
+		"_name_en" : "Lampang"
+	},
+	{
+		"_id" : 39,
+		"_name_th" : "ลำพูน",
+		"_name_en" : "Lamphun"
+	},
+	{
+		"_id" : 30,
+		"_name_th" : "เลย",
+		"_name_en" : "Loei"
+	},
+	{
+		"_id" : 22,
+		"_name_th" : "ศรีสะเกษ",
+		"_name_en" : "Si Sa Ket"
+	},
+	{
+		"_id" : 35,
+		"_name_th" : "สกลนคร",
+		"_name_en" : "Sakon Nakhon"
+	},
+	{
+		"_id" : 70,
+		"_name_th" : "สงขลา",
+		"_name_en" : "Songkhla"
+	},
+	{
+		"_id" : 71,
+		"_name_th" : "สตูล",
+		"_name_en" : "Satun"
+	},
+	{
+		"_id" : 2,
+		"_name_th" : "สมุทรปราการ",
+		"_name_en" : "Samut Prakan"
+	},
+	{
+		"_id" : 60,
+		"_name_th" : "สมุทรสงคราม",
+		"_name_en" : "Samut Songkhram"
+	},
+	{
+		"_id" : 59,
+		"_name_th" : "สมุทรสาคร",
+		"_name_en" : "Samut Sakhon"
+	},
+	{
+		"_id" : 18,
+		"_name_th" : "สระแก้ว",
+		"_name_en" : "Sa Kaeo"
+	},
+	{
+		"_id" : 10,
+		"_name_th" : "สระบุรี",
+		"_name_en" : "Saraburi"
+	},
+	{
+		"_id" : 8,
+		"_name_th" : "สิงห์บุรี",
+		"_name_en" : "Sing Buri"
+	},
+	{
+		"_id" : 51,
+		"_name_th" : "สุโขทัย",
+		"_name_en" : "Sukhothai"
+	},
+	{
+		"_id" : 57,
+		"_name_th" : "สุพรรณบุรี",
+		"_name_en" : "Suphan Buri"
+	},
+	{
+		"_id" : 67,
+		"_name_th" : "สุราษฎร์ธานี",
+		"_name_en" : "Surat Thani"
+	},
+	{
+		"_id" : 21,
+		"_name_th" : "สุรินทร์",
+		"_name_en" : "Surin"
+	},
+	{
+		"_id" : 31,
+		"_name_th" : "หนองคาย",
+		"_name_en" : "Nong Khai"
+	},
+	{
+		"_id" : 27,
+		"_name_th" : "หนองบัวลำภู",
+		"_name_en" : "Nong Bua Lam Phu"
+	},
+	{
+		"_id" : 6,
+		"_name_th" : "อ่างทอง",
+		"_name_en" : "Ang Thong"
+	},
+	{
+		"_id" : 29,
+		"_name_th" : "อุดรธานี",
+		"_name_en" : "Udon Thani"
+	},
+	{
+		"_id" : 48,
+		"_name_th" : "อุทัยธานี",
+		"_name_en" : "Uthai Thani"
+	},
+	{
+		"_id" : 41,
+		"_name_th" : "อุตรดิตถ์",
+		"_name_en" : "Uttaradit"
+	},
+	{
+		"_id" : 23,
+		"_name_th" : "อุบลราชธานี",
+		"_name_en" : "Ubon Ratchathani"
+	},
+	{
+		"_id" : 26,
+		"_name_th" : "อำนาจเจริญ",
+		"_name_en" : "Amnat Charoen"
+	}
+]
