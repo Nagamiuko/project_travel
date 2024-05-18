@@ -12,14 +12,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tel = $_POST['tel'];
     $adminCheck = isset($_POST['admin_check']) ? $_POST['admin_check'] : 'User'; // ตรวจสอบว่าถูกเลือกหรือไม่
     
-    $sql = "INSERT INTO `user_travel`( `username`, `name`, `password`, `address`, `sex`, `tel`, `admin_check`) VALUES ('".$username."','".$name."','".$password."','".$address."','".$sex."','".$tel."','".$adminCheck."')" ;
+    $sql = "INSERT INTO `user_travel`( `username`, `fullname`, `password`, `address`, `sex`, `tel`, `admin_check`) VALUES ('".$username."','".$name."','".$password."','".$address."','".$sex."','".$tel."','".$adminCheck."')" ;
     $message = "" ;
     if($conn->query($sql) === TRUE){
-      echo "<script>window.location.href='index.php'</script>";
+      echo "<script>window.location.href='/'</script>";
       $message = "";
         exit();
     } else {
-        echo "<script>window.location.href='index.php'</script>";
+        echo "<script>window.location.href='/'</script>";
         exit();
     }
     $conn->close(); 

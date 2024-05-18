@@ -1,73 +1,103 @@
 <?php 
-include_once "database/db.php";
+error_reporting(0);
+require "database/db.php";
+require "env-config.php";
 $dataTravel = [] ;
-$id = $_GET['id'];
-$url = "http://localhost:8888/api/travel-api.php?id=".$id."";
-$response = file_get_contents($url);
 
+$id = $_GET['id'];
+$url = URL_API.'travel-api?id='.$id;
+$jsonDataRegion = file_get_contents('region.json');
+$region = json_decode($jsonDataRegion, true);
+$prevince = file_get_contents('prevince.json');
+$previnces = json_decode($prevince, true);
+
+$response = file_get_contents($url);
     if ($response !== false) {
         $data = json_decode($response, true);
         if ($data !== null) {
             $dataTravel = $data ;
         } else {
-            print_r("Failed to decode JSON response.");
+            echo "Failed to decode JSON response.";
         }
     } else {
         echo "Failed to fetch API data.";
     }
-// $_id = $dataTravel['_id'];
-// $image = $dataTravel['image_travel'];
-
-$jsonDataCategory = file_get_contents('category.json');
-$category = json_decode($jsonDataCategory, true);
-
+$_id = $dataTravel['_id'];
+$image = $dataTravel['image_travel'];
+$category =[];
+$url_category = URL_API."api?url=/category/get-all-category";
+$res = file_get_contents($url_category);
+if ($res !== false) {
+    $data = json_decode($res, true);
+    if ($data !== null) {
+        $category = $data ;
+    } else {
+        echo "Failed to decode JSON response.";
+    }
+} else {
+     echo "Failed to fetch API data.";
+    }
 $alertSuccessfully = '<script>alert("อัปโหลดไฟล์ เรียบร้อยแล้ว !")</script>';
 $alertError = '<script>alert("มีข้อผิดพลาดในการอัปโหลดไฟล์ !")</script>';
 
+if ($_SERVER["REQUEST_METHOD"] == "POST" ) {
+    // รับข้อมูล JSON
 
-// if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//     $nameTravel = $_POST['name'];
-//     $typeTravel = $_POST['typeTravel'];
-//     $location = $_POST['location'];
-//     $details = $_POST['details'];
-//     $image_pathOly = $image;
+    // กำหนดค่าตัวแปรจากข้อมูล JSON
+    $nameTravel = $_POST['name'];
+    $typeTravel = $_POST['typeTravel'];
+    $location = $_POST['location'];
+    $details = $_POST['details'];
+    $previnces = $_POST['previnces'];
+    $regions = $_POST['regions'];
     
-//     // print_r($image_pathOly);
-//     // ตรวจสอบว่ามีไฟล์ภาพถูกอัปโหลดหรือไม่
-//     if(!empty($_FILES['images']['name'])) {
-//         $file_name = $_FILES['images']['name'];
-//         $file_tmp = $_FILES['images']['tmp_name'];
+    // ตรวจสอบว่ามีภาพถูกอัปโหลดหรือไม่
+    if (!empty($_FILES['images']['name'][0])) {
+        $images = $_FILES['images'];
+        if (!empty($images['tmp_name'][0])) {
+            $upload_dir = 'uploads/';
+            $imageData = [];
+            foreach ($images['tmp_name'] as $key => $tmp_name) {
+                $file_name = $images['name'][$key];
+                $target_path = $upload_dir . $file_name;
+                move_uploaded_file($tmp_name, $target_path);
+                $imageData[] = [
+                    'file_name' => $file_name,
+                    'file_path' => $target_path
+                ];
+            }
+            $jsonData = json_encode($imageData, true);
+        }
+    }else{
+        $jsonData = $image;
+    }
+
+    // สร้างคำสั่ง SQL UPDATE
+    $sql = "UPDATE `travel_location` SET 
+        `travel_name`=?, 
+        `details_travel`=?, 
+        `location_travel`=?, 
+        `category`=?, 
+        `previnces`=?, 
+        `regions`=?, 
+        `image_travel`=? 
+        WHERE `_id`=?";
+
+    // เตรียมและ execute คำสั่ง SQL
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$nameTravel, $details, $location, $typeTravel,$previnces,$regions,$jsonData, $_id]);
     
-//         // อัปโหลดไฟล์ภาพ
-//         $upload_dir = 'uploads/';
-//         move_uploaded_file($file_tmp, $upload_dir . $file_name);
-    
-//         $image_path = $upload_dir . $file_name;
-//     } else {
-//         // ใช้รูปภาพเดิม
-//         $image_path = $image_pathOly;
-//     }
-    
-//     // อัปเดตข้อมูลในฐานข้อมูล
-//     $sql = "UPDATE `travel_location` SET 
-//             `travel_name`='$nameTravel', 
-//             `details_travel`='$details', 
-//             `location_travel`='$location', 
-//             `category`='$typeTravel', 
-//             `image_travel`='$image_path' 
-//             WHERE `_id`='$_id'";
-    
-//     if ($conn->query($sql) === TRUE) {
-//         echo $alertSuccessfully;
-//         echo "<script>window.location.reload(true);</script>";
-//         exit();
-//     } else {
-//         echo $alertSuccessfully; 
-//         echo "<script>window.location.href='edit-travel.php?id=".$_id."';</script>";
-//         exit();
-//     }
-    
-// }
+    // ตรวจสอบการอัปเดตข้อมูล
+    if ($stmt->rowCount() > 0) {
+        echo "<script>alert('อัปโหลดไฟล์ เรียบร้อยแล้ว !');</script>";
+        echo "<script>window.location.reload(true);</script>";
+        // echo json_encode(["message" => "Travel location updated successfully"]);
+    } else {
+        http_response_code(500); // Internal Server Error
+        // echo "<script>window.location.reload(true);</script>";
+        // echo json_encode(["message" => "Failed to update travel location"]);
+    }
+}
 
 ?>
 <!DOCTYPE html>
@@ -87,18 +117,38 @@ $alertError = '<script>alert("มีข้อผิดพลาดในกา�
     <div class="edit-travel-frame">
         <button onclick="linkPath('myproduct.php')" class="btn-close"></button>
         <h1>Edit Travels</h1>
-        <form id="updateForm" enctype="multipart/form-data"  method="POST" >
+        <form  method="POST" enctype="multipart/form-data">
             <label for="name">Name Travel:</label><br>
             <input type="text" id="name" name="name" value="<?php echo $dataTravel['travel_name']?>" required><br>
             <label for="typeTravel">Category Travel:</label><br>
             <select style="width:100%" id="typeTravel" name="typeTravel" class="select-op" required>
                 <option value="">เลือกประเภทท้องเที่ยว</option>
                 <?php foreach ($category as $data) { ?>
-                    <option value="<?php echo $data['_id']; ?>" <?php if ($dataTravel['category'] == $data['_id']) echo 'selected'; ?>>
-                        <?php echo $data['_name']; ?>
+                    <option value="<?php echo $data['category_name']; ?>" <?php if ($dataTravel['category'] == $data['category_name']) echo 'selected'; ?>>
+                        <?php echo $data['category_name']; ?>
                     </option>
                 <?php } ?>
             </select><br>
+            <label for="typeTravel">Regions Travel:</label><br>
+                <select style="width:100%" id="regions" name="regions" class="select-op" required>
+                    <option value="">เลือกภูมิภาค</option>
+                    <?php foreach($region as $data) { ?>
+                        <option value="<?php echo $data['name']?>">
+                        <option value="<?php echo $data['name']; ?>" <?php if ($dataTravel['regions'] == $data['name']) echo 'selected'; ?>>
+                            <?php echo $data['name']?>
+                        </option>
+                    <?php } ?>
+                </select><br>
+                <label for="typeTravel">Previnces Travel:</label><br>
+                <select style="width:100%" id="previnces" name="previnces" class="select-op" required>
+                    <option value="">เลือกจังหวัด</option>
+                    <?php foreach($previnces as $data) { ?>
+                        <option value="<?php echo $data['_name_th']?>">
+                        <option value="<?php echo $data['_name_th']; ?>" <?php if ($dataTravel['previnces'] == $data['_name_th']) echo 'selected'; ?>>
+                            <?php echo $data['_name_th']?>
+                        </option>
+                    <?php } ?>
+                </select><br>
             <label for="LocationTravel">Location Travel:</label><br>
             <p style="color: #f71c1c;">ตัวอย่าง ::</p> 
             <p>
@@ -111,30 +161,55 @@ $alertError = '<script>alert("มีข้อผิดพลาดในกา�
                 ?>
             </p>
             <textarea type="text" id="location" name="location" style="width: 100%; height:230px; padding:10px;"><?php echo $dataTravel['location_travel'] ?></textarea><br>
-            <label for="images">Image Travels:</label><br>
-            <input type="file" id="images" name="images" accept="image/*"><br>
-            <img id="previewImage" src="<?php echo $dataTravel['image_travel']?>" alt="" width="100%" height="450">
+            <label for="image">Image Travels: <p style="color: #f71c1c;">ตัวอย่างไฟล์ที่รองรับ :: png , jpg , jpeg , gif , heic </p> </label><br>
+            <div id="image-preview">
+            <?php 
+                $images = json_decode($dataTravel['image_travel'], true);
+               if ($images) {
+                foreach ($images as $img) { ?>
+                    <img src="<?php echo $img['file_path'] ?>" alt="">
+             <?php }} ?>
+            </div></br>
+            <input type="file" id="images" name="images[]" accept="image/* , image/heic" multiple  onchange="previewImages(event)"><br>
             <label for="details">Details Travels:</label><br>
             <textarea required type="text" id="details" name="details" style="width: 100%; height:230px; padding:10px;"><?php echo $dataTravel['details_travel']?></textarea><br>
-            <button class="btn-successful" type="buttom" onclick="updateTrave()" >Save</button>
+            <button class="btn-successful" type="submit">Save</button>
         </form>
      </div>
  </div>
 </body>
-
 <script>
-function updateTravel() {
-    var form = document.getElementById('updateForm');
-    var formData = new FormData(form);
-    fetch('http://localhost:8888/api/travel-api.php?id=<?php echo $_GET['id'];?>', {
-        method: 'POST',
-        body: formData
-    }).then(response => response.json()).then(data => {
-        console.log("DAta",data); // เพิ่มการจัดการข้อมูลที่คุณต้องการทำต่อไปที่นี่
-        alert('Travel location updated successfully');
-    }).catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-        alert('Failed to update travel location');
-    });
-}
+  function previewImages(event) {
+    var previewContainer = document.getElementById('image-preview');
+    previewContainer.innerHTML = '';
+
+    var files = event.target.files;
+    for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+            var imgElement = document.createElement('img');
+            imgElement.src = e.target.result;
+            previewContainer.appendChild(imgElement);
+        }
+
+        reader.readAsDataURL(file);
+    }
+    }
 </script>
+<style>
+        #image-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 70px;
+        }
+
+        #image-preview img {
+            max-width: 150px;
+            max-height: 150px;
+            width: 150px;
+            height:150px;
+        }
+
+ </style>

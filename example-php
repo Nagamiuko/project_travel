@@ -26,3 +26,28 @@ loop image json
             <?php }
     } 
     ?>
+ ## example test  
+ define("DATABASE_HOSTNAME","localhost");  // localhost ที่ใช่ปัจจุบัน
+ define("DATABASE_USERNAME","my_test_data"); // ชื่อผู้ใช้ database ปัจจุบัน 
+ define("DATABASE_PASSWORD","my11223344"); // รหัสผ่าน database ปัจจุบัน 
+ define("DATABASE_NAME","travel"); // ชื่อ database ปัจจุบัน 
+ define("URL_API","http://localhost:8888/api/"); // localhost:post  ที่ใช่ปัจจุบัน
+
+
+         <div class="box-search">
+            <select name="regions" id="regions" class="select-op" onchange="search()"> <!-- เลือก ID และ Name สำหรับ <select> -->
+                <option value="">เลือกภูมิภาค</option>
+                <?php foreach ($region as $data) { ?>
+                    <option value="<?php echo $data['_id']?>" key="<?php echo $data['_id']?>"><?php echo $data['name']?></option>
+                <?php }?>
+            </select>
+        </div>
+        <div class="box-search">
+            <select name="previnces" id="previnces" class="select-op"  onchange="search()"> <!-- เลือก ID และ Name สำหรับ <select> -->
+                <option value="">เลือกจังหวัด</option>
+                <?php foreach ($datas as $data) { ?>
+                    <option value="<?php echo $data['_id']?>" key="<?php echo $data['_id']?>"><?php echo $data['_name_th']?></option>
+                    <p></p>
+                <?php }?>
+            </select>
+        </div>

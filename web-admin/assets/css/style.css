@@ -1,0 +1,66 @@
+@import url("https://fonts.googleapis.com/css2?family=Niramit:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap");
+* {
+  box-sizing: border-box;
+  padding: 0;
+  font-family: "Niramit", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+.body-box-layer {
+  position: relative;
+  width: 100%;
+  height: calc(100vh);
+  background: rgb(7, 4, 31);
+  color: #fff;
+  display: flex;
+  flex-direction: row;
+}
+.box-lert-bar {
+  position: relative;
+  width: 20%;
+  border: 1px solid #fff;
+  background-color:	#212129;
+  /* background-image: -moz-linear-gradient(0deg, #00410e 0%, #000 100%);
+    background-image: -webkit-linear-gradient(90deg,#00410e 0%, #000 100%); */
+}
+.link{
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    border: 0.5px solid#4c4c4c;
+}
+.box-lert-bar .frame-box {
+  position: relative;
+  width: 100%;
+  height: auto;
+  border: 1px solid #fff;
+}
+.box-lert-bar .frame-box .box-frame-col {
+    padding: 15px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.box-lert-bar .frame-box .box-frame-col .logo {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.box-lert-bar .frame-box .box-frame-col .logo h1 {
+  margin-left: 1rem;
+  font-size: 20px;
+}
+.box-r-context {
+  position: relative;
+  width: 80%;
+  height: 100vh;
+  border: 1px solid #fff;
+}
+.box-r-context .top-bar {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  border: 1px solid #fff;
+  background-color: rgb(255, 255, 255);
+}

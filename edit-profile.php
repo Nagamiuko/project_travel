@@ -22,13 +22,16 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
     <div class="edit-profile">
         <button onclick="closeEditProfile()" class="btn-close"></button>
         <h1>Edit Profile</h1>
-        <form action="actionEditprofile.php" method="post">
+        <form action="actionEditprofile.php" method="post" enctype="multipart/form-data">
             <label for="name">FullName:</label><br>
-            <input type="text" id="name" name="name" value="<?php echo $user['name']; ?>">
+            <input type="text" id="name" name="name" value="<?php echo $user['fullname']; ?>">
             <label for="username">UserName:</label><br>
             <input type="text" id="username" name="username" value="<?php echo $user['username']; ?>">
             <label for="password">New Password:</label><br>
             <input type="password" id="password" name="password" placeholder="***********" >
+            <label for="address">Avatar:</label></br>
+            <div id="image-preview"></div></br>
+            <input type="file" id="images" name="images" onchange="previewImages(event)" ></br>
             <label for="address">Address:</label></br>
             <textarea style="width: 100%;" id="address" name="address" ><?php echo $user['address']; ?></textarea><br>
             <label for="sex">Sex:</label><br>
@@ -43,3 +46,37 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
     </div>
 </body>
 </html>
+<script>
+     function previewImages(event) {
+            var previewContainer = document.getElementById('image-preview');
+            previewContainer.innerHTML = '';
+
+            var files = event.target.files;
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    var imgElement = document.createElement('img');
+                    imgElement.src = e.target.result;
+                    previewContainer.appendChild(imgElement);
+                }
+
+                reader.readAsDataURL(file);
+            }
+        }
+</script>
+<style>
+    #image-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 70px;
+    }
+
+    #image-preview img {
+    max-width: 150px;
+    max-height: 150px;
+    width: 150px;
+    height:150px;
+    }
+</style>

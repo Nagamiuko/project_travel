@@ -17,28 +17,62 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $address = $_POST['address'];
     $sex =  $_POST['sex']; // รวมข้อมูลจาก checkbox เป็น string
     $tel = $_POST['tel'];
-
+    $avatar = $_FILES['images'];
+    $avatarFileName = null;
+    $targetFilePath = null;
+    if ($avatar && $avatar['error'] == 0) {
+        $targetDir = "uploads/avatar/";
+        $avatarFileName = basename($avatar['name']);
+        $targetFilePath = $targetDir . $avatarFileName;
+        $fileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
+        $allowedTypes = ['jpg', 'png', 'jpeg', 'gif'];
+        if (in_array($fileType, $allowedTypes)) {
+            if (move_uploaded_file($avatar['tmp_name'], $targetFilePath)) {
+                // อัพโหลดไฟล์สำเร็จ
+            } else {
+                echo "<script>alert('Upload failed.');</script>";
+                exit;
+            }
+        } else {
+            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+            exit;
+        }
+    }
     // ตรวจสอบว่ามีการระบุรหัสผ่านใหม่หรือไม่
     if (!empty($_POST['password'])) {
         $password = md5($_POST['password']);
-        // อัพเดตรหัสผ่านใหม่ในฐานข้อมูล
-        $sql = "UPDATE user_travel SET name = :name, username = :username , password = :password, address = :address , sex = :sex , tel = :tel WHERE _id = :id";
-        $stmt = $conn->prepare($sql);
-        $stmt->execute(['name' => $name, 'username' => $username, 'password' => $password , 'address' => $address ,'sex' => $sex , 'tel' => $tel ,'id' => $user_id]);
     } else {
         // ใช้รหัสผ่านเดิม
         $sql = "SELECT password FROM user_travel WHERE _id = :id";
         $stmt = $conn->prepare($sql);
         $stmt->execute(['id' => $user_id]);
-        $old_password = $stmt->fetchColumn();
-
-        // อัพเดตข้อมูลในฐานข้อมูลโดยใช้รหัสผ่านเดิม
-        $sql = "UPDATE user_travel SET name = :name, username = :username , password = :password, address = :address , sex = :sex , tel = :tel WHERE _id = :id";
-        $stmt = $conn->prepare($sql);
-        $stmt->execute(['name' => $name, 'username' => $username, 'password' => $old_password , 'address' => $address ,'sex' => $sex , 'tel' => $tel ,'id' => $user_id]);
+        $password = $stmt->fetchColumn();
     }
 
-    // ส่งกลับไปยังหน้าโปรไฟล์หลังจากการแก้ไข
-    header('Location: index.php');
+    // อัพเดตข้อมูลในฐานข้อมูล
+    $sql = "UPDATE user_travel SET fullname = :name, username = :username, password = :password, address = :address, sex = :sex, tel = :tel";
+    if ($avatarFileName) {
+        $sql .= ", image_avatar = :image_avatar";
+    }
+    $sql .= " WHERE _id = :id";
+    
+    $stmt = $conn->prepare($sql);
+    $params = [
+        'name' => $name,
+        'username' => $username,
+        'password' => $password,
+        'address' => $address,
+        'sex' => $sex,
+        'tel' => $tel,
+        'id' => $user_id
+    ];
+    if ($avatarFileName) {
+        $params['image_avatar'] = $targetFilePath;
+    }
+    $stmt->execute($params);
+
+    // echo "<script>alert('Upload failed.');</script>";
+    session_reset();
+    echo "<script>window.location.href='/';</script>";
     exit;
 }

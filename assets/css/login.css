@@ -26,7 +26,7 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 999;
+    z-index: 9999;
 }
 .login-popup .btn-close{
     display: flex;
@@ -34,8 +34,19 @@
     right: 0.5rem;
     top: 0.5rem;
 }
+.detall-travel .btn-close{
+    display: flex;
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+}
 
 .login-popup h2{
+    display: flex;
+    justify-content: center;
+}
+
+.detall-travel h1{
     display: flex;
     justify-content: center;
 }

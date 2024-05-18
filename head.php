@@ -1,9 +1,19 @@
 <?php
  session_start();
  error_reporting(0);
+ require "database/db.php";
+ 
     $logobg = "assets/image/logo02.png";
     $avatar = "assets/image/avatar.png";
     $html = "<div class='welcome'>Welcome</div";
+    $user_id = $_SESSION['_id'];
+    $sql = "SELECT * FROM user_travel WHERE _id = :id";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(['id' => $user_id]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    $avatar_set = $user['image_avatar'];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,10 +24,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="assets/css/custom.css" rel="stylesheet">
     <link href="assets/css/login.css" rel="stylesheet">
     <link href="assets/css/menu-pop.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
 <body>
     <?php if(!$_SESSION['username']) { ?>
@@ -41,21 +53,31 @@
                     <img src="<?=$logobg ?>" alt="">
                 </div>
                 <div class="box-bg-logo box-menu-pro avatar-img" onclick="openMenuPopup()">
-                    <img src="<?= $avatar ?>" alt="">
+                  <?php if($user['admin_check'] === 'Admin'){ ?>
+                    <div class="menu-bord">
+                      <button onclick="linkPath('/web-admin/')"><i class="bi bi-box-arrow-up-right"></i> ไปหน้าจัดการระบบ</button> 
+                    </div>
+                   <?php }?>
+                   <img src="<?php echo !empty($avatar_set) ? $avatar_set : $avatar; ?>" alt="">
                 </div>
                 <div id="menuPopup" class="menu-pop">
                       <button onclick="closeMenuPopup()" class="btn-close"></button>
                          <div class="menu-item-pro">
                              <ul>
-                               <li><i class="bi bi-person-circle"></i>  <?php echo $_SESSION['username']; ?></li>
+                               <li style="color:black !important; 
+                                          width:130px;
+                                          text-overflow: ellipsis;
+                                          overflow: hidden;
+                                         "
+                                ><i class="bi bi-person-circle"></i> : <?php echo $_SESSION['username']; ?></li>
                                <div class="line"></div>
-                               <li onclick="openEditProfile(); closeMenuPopup()"><i class="bi bi-pencil-square"></i> Profile</li>
+                               <li onclick="openEditProfile(); closeMenuPopup()"><i class="bi bi-pencil-square"></i> บัญชีของฉัน</li>
                                <div class="line"></div>
-                               <li> <a onclick="linkPath('myproduct.php')"><i class="bi bi-airplane-fill"></i> Travels</a></li>
+                               <li> <a onclick="linkPath('myproduct')"><i class="bi bi-airplane-fill"></i> ท้องเที่ยว</a></li>
                                <div class="line"></div>
-                               <li><a href=""><i class="bi bi-star-fill"></i> Favorite</a></li>
+                               <li><a onclick="linkPath('my-follow')"><i class="bi bi-star-fill"></i> ติดตามของฉัน</a></li>
                                <div class="line"></div>
-                               <p onclick="location.href='logout.php'"><i class="bi bi-box-arrow-right" style="front-size:25px"></i> Sign Out</p>
+                               <p onclick="location.href='logout'"><i class="bi bi-box-arrow-right" style="front-size:25px"></i> ออกระบบ</p>
                          </div>
                   </div>
             </div>
@@ -68,7 +90,7 @@
         <div id="loginPopup" class="login-popup">
             <button onclick="closeLoginPopup()" class="btn-close"></button>
             <h2>Sign In</h2>
-            <form action="login.php" method="post">
+            <form action="login" method="post">
                 <input type="text" name="username" placeholder="Username" required>
                 <input type="password" name="password" placeholder="Password" required>
                 <input type="submit" value="Sign In" name="login">
@@ -97,8 +119,9 @@
                 <input type="submit" value="Sign Up">
             </form>
         </div>
-<script src="assets/js/popup-login.js"></script>
+<script  src="assets/js/popup-login.js" lang="js"></script>
 <script src="assets/js/link.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
 

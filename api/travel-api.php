@@ -15,6 +15,13 @@ class TravelAPI {
         $travel_user = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($travel_user);
     }
+    public function getAllTravelCategory() {
+        $sql = "SELECT * FROM travel_category";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $travel_user = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($travel_user);
+    }
 
     public function getTravelLocationsByUserId($user_id) {
         $sql = "SELECT * FROM `travel_location` WHERE u_id = :id";
@@ -23,6 +30,7 @@ class TravelAPI {
         $travel_user = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($travel_user);
     }
+    
     public function getTravelLocationsById($_id) {
         $sql = "SELECT * FROM `travel_location` WHERE _id = :id";
         $stmt = $this->conn->prepare($sql);
@@ -30,72 +38,88 @@ class TravelAPI {
         $travel_user = $stmt->fetch(PDO::FETCH_ASSOC);
         echo json_encode($travel_user);
     }
-    public function updateTravelLocation($_id) {
-        if (!isset($_id) || empty($_id)) {
-            http_response_code(400);
-            echo"<script> console.log('Failed to update travel location ".$_id."');</script>";
-            echo json_encode(array("message" => "Missing travel ID."));
-            return;
+    
+    public function deleteTravelLocationsById($_id) {
+        $sql = "DELETE FROM `travel_location` WHERE _id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $result = $stmt->execute(['id' => $_id]);
+        if ($result) {
+            echo json_encode(['status' => 'success', 'message' => 'Record deleted successfully']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Failed to delete record']);
         }
-
-        // ตรวจสอบว่ามีข้อมูลที่ส่งมาแล้วหรือไม่
-        $data = json_decode(file_get_contents("php://input"), true);
-        if (empty($data)) {
-            http_response_code(400);
-            echo json_encode(array("message" => "No data provided for update."));
-            return;
+    }
+    public function deleteCommentById($_id) {
+        $sql = "DELETE FROM `comment_travel` WHERE comment_id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $result = $stmt->execute(['id' => $_id]);
+        if ($result) {
+            echo json_encode(['status' => 'success', 'message' => 'Record deleted successfully']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Failed to delete record']);
         }
+    }
 
-        // ตรวจสอบและดึงข้อมูลที่ต้องการอัปเดต
-        $sql = "SELECT * FROM `travel_location` WHERE `_id` = :id";
+    public function getTravelCommentById($_id) {
+        $sql = "SELECT comment_travel.*, username , fullname, image_avatar FROM comment_travel 
+        INNER JOIN user_travel ON comment_travel.u_id = user_travel._id
+        WHERE comment_travel.t_id = :id";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute(['id' => $_id]);
-        $travel_location = $stmt->fetch(PDO::FETCH_ASSOC);
-        if (!$travel_location) {
-            http_response_code(404);
-            echo json_encode(array("message" => "Travel location not found."));
-            return;
-        }
-
-        // ดึงข้อมูลที่ต้องการอัปเดตจากข้อมูลที่ส่งมา
-        $nameTravel = !empty($data['name']) ? $data['name'] : $travel_location['travel_name'];
-        $typeTravel = !empty($data['typeTravel']) ? $data['typeTravel'] : $travel_location['category'];
-        $location = !empty($data['location']) ? $data['location'] : $travel_location['location_travel'];
-        $details = !empty($data['details']) ? $data['details'] : $travel_location['details_travel'];
-        $image_pathOly = $travel_location['image_travel'];
-
-        // ตรวจสอบและอัปโหลดไฟล์ภาพใหม่ (ถ้ามี)
-        $image_path = $image_pathOly;
-        if (!empty($_FILES['images']['name'])) {
-            $file_name = $_FILES['images']['name'];
-            $file_tmp = $_FILES['images']['tmp_name'];
-            $upload_dir = 'uploads/';
-            move_uploaded_file($file_tmp, $upload_dir . $file_name);
-            $image_path = $upload_dir . $file_name;
-        }
-
-        // อัปเดตข้อมูลในฐานข้อมูล
-        $sql = "UPDATE `travel_location` SET 
-                `travel_name` = :name, 
-                `details_travel` = :details, 
-                `location_travel` = :location, 
-                `category` = :typeTravel, 
-                `image_travel` = :image_path 
-                WHERE `_id` = :id";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute([
-            'name' => $nameTravel,
-            'details' => $details,
-            'location' => $location,
-            'typeTravel' => $typeTravel,
-            'image_path' => $image_path,
-            'id' => $_id
-        ]);
-
-        // ตอบกลับด้วยข้อมูลที่อัปเดตเรียบร้อยแล้ว
-        http_response_code(200);
-        echo json_encode(array("message" => "Travel location updated successfully."));
+        $travel_user = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($travel_user);
     }
+    
+    public function getTravelLocationsDetailById($_id) {
+        $sql = "SELECT travel_location.*, travel_category.*
+                FROM travel_location
+                INNER JOIN travel_category ON travel_location.category = travel_category.category_name
+                WHERE travel_location._id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['id' => $_id]);
+        $travel_user = $stmt->fetch(PDO::FETCH_ASSOC);
+        echo json_encode($travel_user);
+    }
+    // public function getTravelLocationsDetailById($_id) {
+    //     $sql = "SELECT travel_location.*, travel_category.*, user_follow.*
+    //             FROM travel_location
+    //             INNER JOIN travel_category ON travel_location.category = travel_category.c_id
+    //             LEFT JOIN user_follow ON travel_location._id = user_follow.t_id
+    //             WHERE travel_location._id = :id";
+    //     $stmt = $this->conn->prepare($sql);
+    //     $stmt->execute(['id' => $_id]);
+    //     $travel_user = $stmt->fetch(PDO::FETCH_ASSOC);
+    //     echo json_encode($travel_user);
+    // }
+    public function getTravelLocationsFollowById($_id) {
+        $sql = "SELECT user_follow.*, travel_location.*
+                FROM user_follow
+                INNER JOIN travel_location ON user_follow.t_id = travel_location._id
+                WHERE user_follow.user_id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['id' => $_id]);
+        $travel_user = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($travel_user);
+    }
+    public function deleteTravelLocationsFollowById($_id) {
+        $sql = "DELETE FROM user_follow WHERE f_id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $result = $stmt->execute(['id' => $_id]);
+        if ($result) {
+            echo json_encode(['status' => 'success', 'message' => 'UnFollow successfully']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Failed to UnFollow']);
+        }
+    }
+
+    public function getTravelCategoryById($_id) {
+        $sql = "SELECT * FROM `travel_category` WHERE c_id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['id' => $_id]);
+        $travel_user = $stmt->fetch(PDO::FETCH_ASSOC);
+        echo json_encode($travel_user);
+    }
+
 
     public function handleRequest() {
         if ($_SERVER["REQUEST_METHOD"] === 'GET') {
@@ -105,26 +129,43 @@ class TravelAPI {
             } else if (isset($_GET['id'])) {
                 $id = $_GET['id'];
                 $this->getTravelLocationsById($id);
+            } else if (isset($_GET['c_id'])) {
+                $id = $_GET['c_id'];
+                $this->getTravelCategoryById($id);
+            } else if (isset($_GET['t_id'])) {
+                $id = $_GET['t_id'];
+                $this->getTravelLocationsDetailById($id);
+            } else if (isset($_GET['travel_id'])) {
+                $id = $_GET['travel_id'];
+                $this->getTravelCommentById($id);
+            } else if (isset($_GET['follow_id'])) {
+                $id = $_GET['follow_id'];
+                $this->getTravelLocationsFollowById($id);
             } else {
-                $this->getAllTravelLocations();
+                http_response_code(404);
+                echo json_encode(array("message" => "Not Data API."));
+                echo json_encode(array("message" => preg_match('~^/api/category/get-all-category/?$~', $_SERVER["REQUEST_URI"])));
             }
-         } else if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            //   parse_str(file_get_contents("php://input"), $_POST);
-            if (isset($_POST['id'])) {
-                $id = $_POST['id'];
-                $this->updateTravelLocation($id);
-            } else {
-                http_response_code(400);
-                echo json_encode(array("message" => "Missing travel ID."));
+         }else if($_SERVER["REQUEST_METHOD"] === 'DELETE'){
+            if (isset($_GET['del_id'])) {
+                $id = $_GET['del_id'];
+                $this->deleteTravelLocationsById($id);
             }
-        }
-         else {
+            if (isset($_GET['user_del_id'])) {
+                $id = $_GET['user_del_id'];
+                $this->deleteCommentById($id);
+            }
+            if (isset($_GET['user_unfollow_id'])) {
+                $id = $_GET['user_unfollow_id'];
+                $this->deleteTravelLocationsFollowById($id);
+            }
+        } else {
             http_response_code(400);
             echo json_encode(array("message" => "Invalid request method."));
         }
     }
 }
-
+    
 // ใช้คลาส TravelAPI เพื่อจัดการ API
 $travelAPI = new TravelAPI($conn);
 $travelAPI->handleRequest();
