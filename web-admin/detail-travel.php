@@ -1,12 +1,13 @@
 <?php
 session_start();
 error_reporting(0);
-require 'database/db.php';
-$avatar_test = "assets/image/t1.jpeg";
-$avatar_test2 = "assets/image/t2.jpeg";
+require 'api/db/db.php';
+require 'api/db/env-config.php';
+require 'head.php';
 $dataTravel = [] ;
 $dataComment = [] ;
 $dataCategory = [] ;
+
 $id = $_GET['id'];
 $url = URL_API.'travel-api?t_id='.$id;
 $url_follow = URL_API.'travel-api';
@@ -21,6 +22,7 @@ $stmt = $conn->prepare($sql);
 $stmt->execute(['id' => $user_id]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+$avatar_set = $user['image_avatar'];
 if ($response !== false) {
     $data = json_decode($response, true);
     if ($data !== null) {
@@ -51,31 +53,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
         $stmt->execute();
 }
 ?>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="assets/js/popup-login.js"> </script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="assets/css/login.css" rel="stylesheet">
-</head>
 <body>
-  <header> 
-       <?php include "head.php"; ?>
-   </header>
-   <section>
-      <div class="w-[100%] h-screen img-log">
-         <div class="container">
-             <div class="content">
-                <div class="head">
-                    <?php include "grid.php" ?>
-                </div>
-             </div>
-         </div>
-      </div>
-    </section>
     <section>
         <div id="detail-Travel">
-            <button onclick="linkPath('/');" class="btn-close"></button>
+            <button onclick="linkPath('/web-admin/');" class="btn-close"></button>
             <div class="detail-travel">
                 <div class="content-box">
                     <div class="content-detail">
@@ -86,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
                                 if ($images) {
                                     foreach ($images as $img) { ?>
                                         <div class="slide">
-                                            <img src="<?php echo $img['file_path'] ?>" alt="" width="500">
+                                            <img src="<?php echo URL_HOST.$img['file_path'] ?>" alt="" width="500">
                                         </div>
                                  <?php } }?>
                             <button id="prevBtn"><i class="bi bi-arrow-left-circle-fill"></i></button>
@@ -121,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
                          <div class="title-comment">
                           <div class="flex-end-lr">
                               <div class="name-image">
-                                  <div class="img-avatar" style="background-image: url('<?php echo !empty($avatar_set) ? $avatar_set:$avatar?>');"></div>
+                                  <div class="img-avatar" style="background-image: url('<?php echo !empty($avatar_set) ? URL_HOST.$avatar_set : URL_HOST.$avatar?>');"></div>
                                     <div class="name-user">
                                         <?php echo $user['fullname'] ?>
                                     </div>
@@ -160,7 +141,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
                                      <div class="comment">
                                         <div class="name-user">
                                             <div class="l">
-                                                <div class="img-avatar" style="background-image: url('<?php echo !empty($data['image_avatar']) ? $data['image_avatar'] : $avatar?>');"></div>
+                                                <div class="img-avatar" style="background-image: url('<?php echo !empty($data['image_avatar']) ? URL_HOST.$data['image_avatar'] : $avatar?>');"></div>
                                                 <span><?php echo $data['fullname']?></span> 
                                             </div>
                                             <div class="r">

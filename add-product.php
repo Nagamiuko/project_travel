@@ -7,7 +7,7 @@ $user_id = $_SESSION['_id'];
 $jsonDataRegion = file_get_contents('region.json');
 $region = json_decode($jsonDataRegion, true);
 $prevince = file_get_contents('prevince.json');
-$datas = json_decode($prevince, true);
+$previnces = json_decode($prevince, true);
 // $jsonDataCategory = file_get_contents('category.json');
 // $category = json_decode($jsonDataCategory, true);
 $message = '' ;
@@ -159,11 +159,12 @@ if ($res !== false) {
                     <?php } ?>
                 </select><br>
 
-                <p style="color: #f71c1c;">ตัวอย่าง ::</p> 
+                <p style="color: #f71c1c;">ตัวอย่าง :: </p> 
                 <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3822.858086793001!2d100.9946950759577!3d16.63388998413048!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTbCsDM4JzAyLjAiTiAxMDDCsDU5JzUwLjIiRQ!5e0!3m2!1sth!2sth!4v1714534588988!5m2!1sth!2sth" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe><br>
 
                 <label for="LocationTravel">Location Travel:</label><br>
-                <textarea type="text" id="location" name="location" style="width: 100%; height:230px; padding:10px;"> <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3822.858086793001!2d100.9946950759577!3d16.63388998413048!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTbCsDM4JzAyLjAiTiAxMDDCsDU5JzUwLjIiRQ!5e0!3m2!1sth!2sth!4v1714534588988!5m2!1sth!2sth" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></textarea><br>
+                <p style="color: #f71c1c;">ตัวอย่าง :: โปรดปรับขนาดเท่ากับ  ความกว้าง : 400 x ความสูง : 300</p>
+                <textarea type="text" id="location" name="location" style="width: 100%; height:230px; padding:10px;"> <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3822.858086793001!2d100.9946950759577!3d16.63388998413048!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTbCsDM4JzAyLjAiTiAxMDDCsDU5JzUwLjIiRQ!5e0!3m2!1sth!2sth!4v1714534588988!5m2!1sth!2sth" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></textarea><br>
 
                 <label for="image">Image Travels: <p style="color: #f71c1c;">ตัวอย่างไฟล์ที่รองรับ :: png , jpg , jpeg , gif , heic </p> </label><br>
                 <div id="image-preview"></div></br>

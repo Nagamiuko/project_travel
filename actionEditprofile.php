@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $avatarFileName = basename($avatar['name']);
         $targetFilePath = $targetDir . $avatarFileName;
         $fileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
-        $allowedTypes = ['jpg', 'png', 'jpeg', 'gif'];
+        $allowedTypes = ['jpg', 'png', 'jpeg', 'gif' ,'webp'];
         if (in_array($fileType, $allowedTypes)) {
             if (move_uploaded_file($avatar['tmp_name'], $targetFilePath)) {
                 // อัพโหลดไฟล์สำเร็จ

@@ -1,3 +1,3 @@
 <body>
-    sds
+   <?php echo $title_page; ?>
 </body>
