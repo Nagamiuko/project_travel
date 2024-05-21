@@ -1,6 +1,8 @@
 
 <?php echo $title_page;
 require "api/db/db.php";
+require __DIR__ . "/../env-config.php";
+
 
 $jsonDataRegion = file_get_contents('../region.json');
 $region = json_decode($jsonDataRegion, true);
@@ -129,10 +131,10 @@ if ($res !== false) {
               <td> <?=$item['previnces']?></td>
               <td> <?=$item['regions']?></td>
               <td> <?php echo $item['status_allow'] === 0 ? '<p style="color:#cd0000;">รออนุมัติ</p>' : '<p style="color:#00a71c;">อนุมัติแล้ว</p>'; ?></td>
-              <?php if( $item['status_allow'] == 1) {
-                echo ' <td> </td>';
-              }else{?>
-              <td><form action="actionAllow?t_id=<?php echo $item['_id']?>" method="POST"><button  style="color:#00a71c; padding:5px 10px;   background:#fff;  border: 0.5px solid#00a120; border-radius:5px;" class="more">Allow</button></form> </td>
+              <?php if( $item['status_allow'] == 1) { ?>
+                <td><form action="actionAllow?un_id=<?php echo $item['_id']?>" method="POST"><button  style="color:#ff007b; padding:5px 10px;   background:#fff;  border: 0.5px solid #ff007b; border-radius:5px;" class="more">Unapproval</button></form> </td>
+             <?php }else{?>
+              <td><form action="actionAllow?t_id=<?php echo $item['_id']?>" method="POST"><button  style="color:#00a71c; padding:5px 10px;   background:#fff;  border: 0.5px solid#00a120; border-radius:5px;" class="more">Approval</button></form> </td>
               <?php } ?>
               <td><a href="/web-admin/detail-travel?id=<?=$item['_id']?> " class="more" style="color:#ff5e00; padding:5px 20px;   background:#fff;  border: 0.5px solid #ff5e00; border-radius:5px;">Details</a> <a href="/web-admin/edit-travel?id=<?= $item['_id']?>'" class="more" style="color:#ff15b5;; padding:5px 20px;   background:#fff;  border: 0.5px solid #ff15b5; border-radius:5px;">Edit</a></td>
             

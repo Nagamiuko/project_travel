@@ -1,0 +1,10 @@
+<?php
+// config database 
+ define("DATABASE_HOSTNAME","");  // localhost ที่ใช่ปัจจุบัน
+ define("DATABASE_USERNAME",""); // ชื่อผู้ใช้ database ปัจจุบัน 
+ define("DATABASE_PASSWORD",""); // รหัสผ่าน database ปัจจุบัน 
+ define("DATABASE_NAME",""); // ชื่อ database ปัจจุบัน 
+// config url api 
+ define("URL_API",""); // localhost:post  ที่ใช่ปัจจุบัน; // localhost:post  ที่ใช่ปัจจุบัน
+ define("URL_HOST","");
+?>

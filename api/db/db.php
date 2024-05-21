@@ -1,5 +1,5 @@
 <?php
-require "env-config.php";
+require __DIR__ . "/../../env-config.php";
 try {
     $conn = new PDO("mysql:host=" . DATABASE_HOSTNAME . ";dbname=" . DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD);
     // Set the PDO error mode to exception

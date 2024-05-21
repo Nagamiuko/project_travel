@@ -30,6 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // echo "<script>window.location.reload(true);</script>";
     }else{
         echo "<script>alert('Comment Not Success!');</script>";
+        echo "<script>window.location.href='detail-travel?id=".$id."';</script>";
     }
 
 }

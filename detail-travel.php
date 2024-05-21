@@ -102,6 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
                                 <h6><p>ชื่อที่ท้องเที่ยว : <?php echo $dataTravel['travel_name']?></p> </h6>
                                 <h6><p>แหล่งท้องเที่ยว : <?php echo $dataTravel['category_name']?></p> </h6>
                                 <h6><p>วันที่ประกาศ : <?php echo $date ?></p> </h6>
+                                <h6><p>ยอดผู้เข้าชม : <?php echo $dataTravel['travel_view'] ?> คน</p> </h6>
                             </div>
                             <div class="box-text-detail">
                               <h6>รายละเอียด: </h6>
@@ -138,7 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
                           </div>
                            <form id="myForm" class="comment-btn" method="POST" action="actionComment?id=<?php echo $id?>">
                                 <div class="comment-my ">
-                                     <textarea id="comment_travel" name="comment_travel" placeholder="แสดงความคิดเห็น" type="text" id="location" name="location" style="width: 100%; height:80px; padding:10px;"></textarea>
+                                     <textarea id="comment_travel" name="comment_travel" placeholder="แสดงความคิดเห็น" type="text" id="location" name="location" style="width: 100%; height:80px; padding:10px;" required></textarea>
                                 </div>
                                 <div class="comment-my">
                                     <button>ส่ง</button>
@@ -235,48 +236,64 @@ function submitForm() {
 <script>
 
  async function deleteComment(id) {
-            try {
-                const response = await fetch(`<?=$del_comment?>${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                const result = await response.json();
-                console.log(result);
-                if (response.ok) {
-                    Swal.fire({
-                        title: 'Success',
-                        text: result.message,
-                        icon: 'success',
-                        confirmButtonText: 'OK',
-                        cancelButtonText: 'Cancel'
-                }).then((result) => {
-                        if (result.isConfirmed) {
+          try {
+            if (id) {
+                const url = `<?=$del_comment?>${id}`;
+                  Swal.fire({
+                      title: '',
+                      text: 'คุณต้องการลบตัวเลือกใช้หรือไม่',
+                      icon: 'info',
+                      confirmButtonText: 'OK',
+                      showCancelButton: true,
+                      cancelButtonText: 'Cancel'
+                  }).then(async (swalResult) => {
+                      if (swalResult.isConfirmed) {
+                          const response = await fetch(url, {
+                          method: 'DELETE',
+                          headers: {
+                              'Content-Type': 'application/json'
+                          }
+                      });
+                      let result;
+                      try {
+                          result = await response.json();
+                      } catch (e) {
+                          result = { message: 'Unexpected error occurred' };
+                      }
+                      console.log(result);
+                      Swal.fire({
+                            title: 'Success',
+                            text: 'คุณทำการลบตัวเลือกนี้เรียบร้อย',
+                            icon: 'success',
+                            showConfirmButton: false
+                        })
+                        setTimeout(() => {
+                            Swal.close();
                             window.location.reload();
-                        } else if (result.dismiss === Swal.DismissReason.cancel) {
-                            console.log('User cancelled the action');
-                        }
-                })
-                } else {
-                    Swal.fire({
-                        title: 'Error',
-                        text: result.message,
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                }
-            } catch (error) {
-                Swal.fire({
-                    title: 'Error',
-                    text: 'Failed to delete the location.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-                console.error('Error:', error);
-            }
-        }
+                        }, 1000);
+
+                      } else if (swalResult.dismiss === Swal.DismissReason.cancel) {
+                        //text
+                      }
+                  });
+              } else {
+                  Swal.fire({
+                      title: 'Error',
+                      text: result.message,
+                      icon: 'error',
+                      confirmButtonText: 'OK'
+                  });
+              }
+          } catch (error) {
+              Swal.fire({
+                  title: 'Error',
+                  text: 'Failed to delete the location.',
+                  icon: 'error',
+                  confirmButtonText: 'OK'
+              });
+              console.error('Error:', error);
+          }
+      }
     </script>
  <style lang="css">
 .slider-container {

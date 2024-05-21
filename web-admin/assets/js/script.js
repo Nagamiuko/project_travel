@@ -3,6 +3,7 @@ const openMangeHome = (key) => {
     document.getElementById("home-box").style.display = "block";
     document.getElementById("user-box").style.display = "none";
     document.getElementById("travel-box").style.display = "none";
+    document.getElementById("category-box").style.display = "none";
   } else {
     document.getElementById("home-box").style.display = "none";
   }
@@ -12,6 +13,7 @@ const openMangeUser = (key) => {
     document.getElementById("user-box").style.display = "block";
     document.getElementById("home-box").style.display = "none";
     document.getElementById("travel-box").style.display = "none";
+    document.getElementById("category-box").style.display = "none";
   } else {
     document.getElementById("user-box").style.display = "none";
   }
@@ -21,8 +23,19 @@ const openMangeTravel = (key) => {
     document.getElementById("user-box").style.display = "none";
     document.getElementById("travel-box").style.display = "block";
     document.getElementById("home-box").style.display = "none";
+    document.getElementById("category-box").style.display = "none";
   } else {
     document.getElementById("travel-box").style.display = "none";
+  }
+};
+const openMangeCategory = (key) => {
+  if (key === "open") {
+    document.getElementById("category-box").style.display = "block";
+    document.getElementById("user-box").style.display = "none";
+    document.getElementById("travel-box").style.display = "none";
+    document.getElementById("home-box").style.display = "none";
+  } else {
+    document.getElementById("category-box").style.display = "none";
   }
 };
 // const openEditUser = (key) => {
@@ -33,11 +46,17 @@ const openMangeTravel = (key) => {
 //   }
 // };
 function openAddPopup() {
-    document.getElementById('addPopup').style.display = 'block';
+  document.getElementById("addPopup").style.display = "block";
 }
 function closeAddPopup() {
-    document.getElementById('addPopup').style.display = 'none';
+  document.getElementById("addPopup").style.display = "none";
+}
+function openAddCategory() {
+  document.getElementById("addCategory").style.display = "block";
+}
+function closeAddCategory() {
+  document.getElementById("addCategory").style.display = "none";
 }
 const linkPath = (link) => {
-    window.location.href = link ;
-}
+  window.location.href = link;
+};

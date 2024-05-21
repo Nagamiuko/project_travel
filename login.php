@@ -55,12 +55,13 @@ if (isset($_POST['login'])) {
                 title: 'เข้าสู่ระบบสำเร็จ',
                 text: 'สวัสดีคุณ Admin : {$_SESSION['username']}',
                 icon: 'success',
-                confirmButtonText: 'OK'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = '/web-admin/';
-                }
-            });";
+                showConfirmButton: false
+            })
+            setTimeout(() => {
+                Swal.close();
+                window.location.href = '/web-admin/';
+            }, 1000);
+             ";
             // Clear the session message after use
             unset($_SESSION['message']);
             unset($_SESSION['message_type']);
@@ -70,12 +71,13 @@ if (isset($_POST['login'])) {
                 title: 'เข้าสู่ระบบสำเร็จ',
                 text: 'สวัสดีคุณ : {$_SESSION['username']}',
                 icon: 'success',
-                confirmButtonText: 'OK'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = '/';
-                }
-            });";
+                showConfirmButton: false
+            })
+            setTimeout(() => {
+                Swal.close();
+                window.location.href = '/';
+            }, 1000);
+            ";
             // Clear the session message after use
             unset($_SESSION['message']);
             unset($_SESSION['message_type']);

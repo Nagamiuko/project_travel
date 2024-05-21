@@ -5,7 +5,7 @@
  define("DATABASE_PASSWORD","my11223344"); // รหัสผ่าน database ปัจจุบัน 
  define("DATABASE_NAME","travel"); // ชื่อ database ปัจจุบัน 
 // config url api 
- define("URL_API","http://localhost:8888/api/"); // localhost:post  ที่ใช่ปัจจุบัน
-
+ define("URL_API","http://localhost:8888/api/"); // localhost:post  ที่ใช่ปัจจุบัน; // localhost:post  ที่ใช่ปัจจุบัน
+ define("URL_HOST","http://localhost:8888/");
 
 ?>

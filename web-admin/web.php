@@ -1,8 +1,7 @@
 <?php
 error_reporting(0);
- require "api/db/env-config.php";
+require __DIR__ . "/../env-config.php";
  $img_logp =  "assets/image/906343.png" ;
- $avatar =  "assets/image/GettyImages-1484700259-e1701910168429.webp" ;
  $user_name =  $user['fullname'];
  $avatar_image =  $user['image_avatar'];
 
@@ -71,6 +70,7 @@ error_reporting(0);
                             <li onclick="openMangeHome('close')"><i class="bi bi-house-door-fill"></i> หน้าหลัก</li>
                             <li onclick="openMangeUser('open'); "><i class="bi bi-people-fill"></i> จัดการผู้ใช้งาน</li>
                             <li onclick="openMangeTravel('open')"><i class="bi bi-flag-fill"></i> จัดการที่ท้องเที่ยว</li>
+                            <li onclick="openMangeCategory('open')"><i class="bi bi-tags-fill"></i> จัดการหมวดหมู่</li>
                             <li onclick="linkPath('/logout');"><i class="bi bi-box-arrow-right"></i> ออกจากระบบ</li>
                         </ul>
                     </div>
@@ -111,6 +111,17 @@ error_reporting(0);
                  <?php  
                    $title_page = "" ; 
                    require "travel.php" ;
+                 ?>
+              </div>
+          </section>
+            <section id='category-box'>
+               <div class="top-bar">
+                    <?php $title_page = "จัดการทหมวดหมู่"; $dataItem = $dataItem ; require "topbar.php" ;?>
+               </div>
+              <div class="content-board">
+                 <?php  
+                   $title_page = "" ; 
+                   require "category.php" ;
                  ?>
               </div>
           </section>

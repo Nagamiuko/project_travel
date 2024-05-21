@@ -1,5 +1,5 @@
 <?php
-include_once "database/db.php";
+include_once "api/db/db.php";
 session_start();
 $userId = $_SESSION['_id'];
 $id = $_GET['id'];
@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':comment', $comment);
         $stmt->execute();
-        echo "<script>window.location.href='/wed-admin/detail-travel?id=".$id."';</script>";
+        echo "<script>window.location.href='/web-admin/detail-travel?id=".$id."';</script>";
         // echo "<script>window.location.reload(true);</script>";
     }else{
         echo "<script>alert('Comment Not Success!');</script>";

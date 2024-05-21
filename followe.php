@@ -255,48 +255,64 @@ if ($response !== false) {
 </script>
 <script>
         async function unFollowLocation(id) {
-            try {
-                const response = await fetch(`<?=$url_del?>${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                const result = await response.json();
-                console.log(result);
-                if (response.ok) {
-                    Swal.fire({
-                        title: 'Success',
-                        text: result.message,
-                        icon: 'success',
-                        confirmButtonText: 'OK',
-                        cancelButtonText: 'Cancel'
-                }).then((result) => {
-                        if (result.isConfirmed) {
+          try {
+            if (id) {
+                const url = `<?=$url_del?>${id}`;
+                  Swal.fire({
+                      title: '',
+                      text: 'คุณต้องการเลิกติดตามใช้หรือไม่',
+                      icon: 'info',
+                      confirmButtonText: 'OK',
+                      showCancelButton: true,
+                      cancelButtonText: 'Cancel'
+                  }).then(async (swalResult) => {
+                      if (swalResult.isConfirmed) {
+                          const response = await fetch(url, {
+                          method: 'DELETE',
+                          headers: {
+                              'Content-Type': 'application/json'
+                          }
+                      });
+                      let result;
+                      try {
+                          result = await response.json();
+                      } catch (e) {
+                          result = { message: 'Unexpected error occurred' };
+                      }
+                      console.log(result);
+                      Swal.fire({
+                            title: '',
+                            text: 'คุณทำการเลิกติดตามเรียบร้อย',
+                            icon: 'success',
+                            showConfirmButton: false
+                        })
+                        setTimeout(() => {
+                            Swal.close();
                             window.location.reload();
-                        } else if (result.dismiss === Swal.DismissReason.cancel) {
-                            console.log('User cancelled the action');
-                        }
-                })
-                } else {
-                    Swal.fire({
-                        title: 'Error',
-                        text: result.message,
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                }
-            } catch (error) {
-                Swal.fire({
-                    title: 'Error',
-                    text: 'Failed to delete the location.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-                console.error('Error:', error);
-            }
-        }
+                        }, 1000);
+
+                      } else if (swalResult.dismiss === Swal.DismissReason.cancel) {
+                        //text
+                      }
+                  });
+              } else {
+                  Swal.fire({
+                      title: 'Error',
+                      text: result.message,
+                      icon: 'error',
+                      confirmButtonText: 'OK'
+                  });
+              }
+          } catch (error) {
+              Swal.fire({
+                  title: 'Error',
+                  text: 'Failed to delete the location.',
+                  icon: 'error',
+                  confirmButtonText: 'OK'
+              });
+              console.error('Error:', error);
+          }
+      }   
     </script>
 <style>
         #image-preview {

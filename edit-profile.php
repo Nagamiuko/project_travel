@@ -30,7 +30,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
             <label for="password">New Password:</label><br>
             <input type="password" id="password" name="password" placeholder="***********" >
             <label for="address">Avatar:</label></br>
-            <div id="image-preview"></div></br>
+            <div id="image-preview"><img src="<?php echo $user['image_avatar'] ?>" alt=""></div></br>
             <input type="file" id="images" name="images" onchange="previewImages(event)" ></br>
             <label for="address">Address:</label></br>
             <textarea style="width: 100%;" id="address" name="address" ><?php echo $user['address']; ?></textarea><br>

@@ -49,23 +49,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 title: '',
                 text: 'ติดตามแล้ว',
                 icon: 'success',
-                confirmButtonText: 'OK'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href='detail-travel?id=" . $travelid . "';
-                }
-            });";
+                showConfirmButton: false
+            })
+            setTimeout(() => {
+                Swal.close();
+                window.location.href='detail-travel?id=" . $travelid . "';
+
+            }, 1000);";
         }else{
             echo "Swal.fire({
                 title: '',
                 text: 'คุณได้ติดตามการเดินทางครั้งนี้แล้ว',
                 icon: 'failed',
-                confirmButtonText: 'OK'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href='detail-travel?id=" . $travelid . "';
-                }
-            });";
+                showConfirmButton: false
+            })
+            setTimeout(() => {
+                Swal.close();
+                window.location.href='detail-travel?id=" . $travelid . "';
+
+            }, 1000);";
         }
         ?>
      </script>

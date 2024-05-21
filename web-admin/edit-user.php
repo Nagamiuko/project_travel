@@ -1,6 +1,8 @@
 <?php
 session_start();
+error_reporting(0);
 require 'api/db/db.php';
+require __DIR__ . "/../env-config.php";
 require "head.php";
 
 if (isset($_GET['id'])) {
@@ -18,7 +20,7 @@ if (isset($_GET['id'])) {
         <div class="edit-profile">
             <button onclick="linkPath('/web-admin/')" class="btn-close"></button>
             <h1>Edit Profile</h1>
-            <form action="../actionEditprofile" method="post" enctype="multipart/form-data">
+            <form action="/web-admin/actionEditprofile?id=<?=$user['_id']?>" method="post" enctype="multipart/form-data">
                 <label for="name">FullName:</label><br>
                 <input type="text" id="name" name="name" value="<?php echo $user['fullname']; ?>">
                 <label for="username">UserName:</label><br>
@@ -26,7 +28,7 @@ if (isset($_GET['id'])) {
                 <label for="password">New Password:</label><br>
                 <input type="password" id="password" name="password" placeholder="***********" >
                 <label for="address">Avatar:</label></br>
-                <div id="image-preview"></div></br>
+                <div id="image-preview"> <img src="<?php echo URL_HOST.$user['image_avatar'] ?>" alt=""></div></br>
                 <input type="file" id="images" name="images" onchange="previewImages(event)" ></br>
                 <label for="address">Address:</label></br>
                 <textarea style="width: 100%;" id="address" name="address" ><?php echo $user['address']; ?></textarea><br>
@@ -36,7 +38,12 @@ if (isset($_GET['id'])) {
                 <input type="radio" id="female" name="sex" value="female" <?php if ($user['sex'] == 'female') echo 'checked'; ?>>
                 <label for="female">Female</label><br><br>
                 <label for="tel">Telephone:</label>
-                <input type="tel" id="tel" name="tel" value="<?php echo $user['tel']; ?>"><br><br>
+                <input type="tel" id="tel" name="tel" value="<?php echo $user['tel']; ?>"><br>
+                <label for="auth">Permission:</label><br>
+                <input type="radio" id="Admin" name="permission" value="Admin" <?php if ($user['admin_check'] == 'Admin') echo 'checked'; ?>>
+                <label for="male">Admin</label><br>
+                <input type="radio" id="User" name="permission" value="User" <?php if ($user['admin_check'] == 'User') echo 'checked'; ?>>
+                <label for="female">User</label><br><br>
                 <button class="btn-successful" type="submit">Save</button>
             </form>
         </div>

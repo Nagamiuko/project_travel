@@ -58,7 +58,7 @@
                       <button onclick="linkPath('/web-admin/')"><i class="bi bi-box-arrow-up-right"></i> ไปหน้าจัดการระบบ</button> 
                     </div>
                    <?php }?>
-                   <img src="<?php echo !empty($avatar_set) ? $avatar_set : $avatar; ?>" alt="">
+                   <img src="<?php echo !empty($avatar_set) ? $avatar_set : $avatar ?>" alt="">
                 </div>
                 <div id="menuPopup" class="menu-pop">
                       <button onclick="closeMenuPopup()" class="btn-close"></button>

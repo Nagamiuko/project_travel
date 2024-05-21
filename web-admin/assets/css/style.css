@@ -112,6 +112,9 @@
 #travel-box {
   display: none;
 }
+#category-box {
+  display: none;
+}
 .content-board{
     padding: 20px 10px;
     position: relative;
@@ -559,6 +562,34 @@ h2 {
     top: 0.5rem;
   }
   .addPopup .edit-profile {
+    padding-right: 15px;
+    width: 620px;
+    height: 85vh;
+    overflow-y: auto;
+    overflow-y: scroll;
+  }
+.addCategory {
+    display: none;
+    position: fixed;
+    top: 50%;
+    right: -2rem;
+    transform: translate(-50%, -50%);
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    height: 90vh;
+    width: 640px;
+    color: #000;
+  }
+  .addCategory .btn-close {
+    display: flex;
+    position: absolute;
+    right: 1rem;
+    top: 0.5rem;
+  }
+  .addCategory .edit-profile {
     padding-right: 15px;
     width: 620px;
     height: 85vh;

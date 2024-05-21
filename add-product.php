@@ -103,7 +103,7 @@ if ($res !== false) {
                     <select name="category" id="category" class="se" onchange="search()"> <!-- เลือก ID และ Name สำหรับ <select> -->
                         <option value="">ประเภทท้องที่ยว</option>
                         <?php foreach ($category as $data) { ?>
-                            <option value="<?php echo $data['category_name']?>" key="<?php echo $data['c_id']?>"><?php echo $data['category_name']?></option>
+                            <!-- <option value="<?php echo $data['category_name']?>" key="<?php echo $data['c_id']?>"><?php echo $data['category_name']?></option> -->
                         <?php }?>
                     </select>
                 </div>
@@ -114,7 +114,7 @@ if ($res !== false) {
                 <select name="" id="" class="se"  onchange="search()"> <!-- เลือก ID และ Name สำหรับ <select> -->
                     <option value="">เทศกาล</option>
                     <?php foreach ($datas as $data) { ?>
-                        <option value="<?php echo $data['_id']?>" key="<?php echo $data['_id']?>"><?php echo $data['_name_th']?></option>
+                        <!-- <option value="<?php echo $data['_id']?>" key="<?php echo $data['_id']?>"><?php echo $data['_name_th']?></option> -->
                         <p></p>
                     <?php }?>
                 </select>
@@ -285,49 +285,65 @@ if ($res !== false) {
 
 </script>
 <script>
-        async function deleteLocation(id) {
-            try {
-                const response = await fetch(`<?=$url_del?>${id}`, {
+ async function deleteLocation(id) {
+    try {
+      if (id) {
+          const url = `<?=$url_del?>${id}`;
+            Swal.fire({
+                title: '',
+                text: 'คุณต้องการลบตัวเลือกใช้หรือไม่',
+                icon: 'info',
+                confirmButtonText: 'OK',
+                showCancelButton: true,
+                cancelButtonText: 'Cancel'
+            }).then(async (swalResult) => {
+                if (swalResult.isConfirmed) {
+                    const response = await fetch(url, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 });
-
-                const result = await response.json();
-                console.log(result);
-                if (response.ok) {
-                    Swal.fire({
-                        title: 'Success',
-                        text: result.message,
-                        icon: 'success',
-                        confirmButtonText: 'OK',
-                        cancelButtonText: 'Cancel'
-                }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.reload();
-                        } else if (result.dismiss === Swal.DismissReason.cancel) {
-                            console.log('User cancelled the action');
-                        }
-                })
-                } else {
-                    Swal.fire({
-                        title: 'Error',
-                        text: result.message,
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
+                let result;
+                try {
+                    result = await response.json();
+                } catch (e) {
+                    result = { message: 'Unexpected error occurred' };
                 }
-            } catch (error) {
+                console.log(result);
                 Swal.fire({
-                    title: 'Error',
-                    text: 'Failed to delete the location.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-                console.error('Error:', error);
-            }
+                      title: 'Success',
+                      text: 'คุณทำการลบตัวเลือกนี้เรียบร้อย',
+                      icon: 'success',
+                      showConfirmButton: false
+                  })
+                  setTimeout(() => {
+                      Swal.close();
+                      window.location.reload();
+                  }, 1000);
+
+                } else if (swalResult.dismiss === Swal.DismissReason.cancel) {
+                  //text
+                }
+            });
+        } else {
+            Swal.fire({
+                title: 'Error',
+                text: result.message,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
         }
+    } catch (error) {
+        Swal.fire({
+            title: 'Error',
+            text: 'Failed to delete the location.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+        console.error('Error:', error);
+    }
+}
     </script>
 <style>
         #image-preview {

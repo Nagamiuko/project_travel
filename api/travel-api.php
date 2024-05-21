@@ -111,6 +111,26 @@ class TravelAPI {
             echo json_encode(['status' => 'error', 'message' => 'Failed to UnFollow']);
         }
     }
+    public function deleteCategoryById($_id) {
+        $sql = "DELETE FROM travel_category  WHERE c_id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $result = $stmt->execute(['id' => $_id]);
+        if ($result) {
+            echo json_encode(['status' => 'success', 'message' => 'delete Category successfully']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Failed to delete']);
+        }
+    }
+    public function deleteUserById($_id) {
+        $sql = "DELETE FROM user_travel  WHERE _id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $result = $stmt->execute(['id' => $_id]);
+        if ($result) {
+            echo json_encode(['status' => 'success', 'message' => 'delete user successfully']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Failed to delete']);
+        }
+    }
 
     public function getTravelCategoryById($_id) {
         $sql = "SELECT * FROM `travel_category` WHERE c_id = :id";
@@ -158,6 +178,14 @@ class TravelAPI {
             if (isset($_GET['user_unfollow_id'])) {
                 $id = $_GET['user_unfollow_id'];
                 $this->deleteTravelLocationsFollowById($id);
+            }
+            if (isset($_GET['del-category-id'])) {
+                $id = $_GET['del-category-id'];
+                $this->deleteCategoryById($id);
+            }
+            if (isset($_GET['del-user-id'])) {
+                $id = $_GET['del-user-id'];
+                $this->deleteUserById($id);
             }
         } else {
             http_response_code(400);

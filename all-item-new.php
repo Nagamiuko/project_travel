@@ -35,27 +35,14 @@ if ($response !== false) {
 } else {
      echo "Failed to fetch API data.";
 }
-function sortByTravelView($a, $b) {
-    return $b['travel_view'] - $a['travel_view'];
-}
-$travel_all_hit = $travel_all ;
-usort($travel_all_hit, 'sortByTravelView');
+
 
 function sortByDate($a, $b) {
     return strtotime($b['date']) - strtotime($a['date']);
 }
-$travel_all_new_date = $travel_all;
-usort($travel_all_new_date, 'sortByDate');
+usort($travel_all, 'sortByDate');
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <title>Search and Grid Page</title>
 
-</head>
 <body>
     <!-- Search -->
  <?php if($userLogin !==  null){ ?>
@@ -168,7 +155,7 @@ usort($travel_all_new_date, 'sortByDate');
                     <select name="category" id="category" class="se" onchange="search()"> <!-- เลือก ID และ Name สำหรับ <select> -->
                         <option value="">ประเภทท้องที่ยว</option>
                         <?php foreach ($category as $data) { ?>
-                           
+                            <option value="<?php echo $data['category_name']?>" key="<?php echo $data['c_id']?>"><?php echo $data['category_name']?></option>
                         <?php }?>
                     </select>
                 </div>
@@ -179,7 +166,7 @@ usort($travel_all_new_date, 'sortByDate');
                 <select name="" id="" class="se"  onchange="search()"> <!-- เลือก ID และ Name สำหรับ <select> -->
                     <option value="">เทศกาล</option>
                     <?php foreach ($datas as $data) { ?>
-                        <option value="<?php echo $data['_id']?>" key="<?php echo $data['_id']?>"><?php echo $data['_name_th']?></option>
+                        <!-- <option value="<?php echo $data['_id']?>" key="<?php echo $data['_id']?>"><?php echo $data['_name_th']?></option> -->
                         <p></p>
                     <?php }?>
                 </select>
@@ -192,103 +179,15 @@ usort($travel_all_new_date, 'sortByDate');
     <!-- Grid -->
     <div class="title-box-hit">
     <div class="box-title">
-        <h4>ฮิตยอดนิยม</h4>
-        <h5 onclick="linkPath('travel-popular')">ดูทั้งหมด</h5>
-    </div>
-    <div class="grid-container" id="grid-container">
-     <?php
-         $count = 0;
-         foreach ($travel_all_hit as $data) { 
-         $url_path = "detail-travel?id=" . $data['_id'];
-         if($data['status_allow'] === 1 && $data['travel_view'] >= 50 && $count < 5) {
-            $count++;
-        ?>
-        
-        <div key="<?php echo $data['travel_view']?>" class="grid-item " id="grid-item" onclick="linkPath('<?php echo $url_path?>')">
-                <?php echo $data['travel_name'] ?>
-                <p style="display:none"><?php echo $data['category'] ?></p>      
-                <p style="display:none"><?php echo $data['previnces'] ?></p>      
-                <p style="display:none"><?php echo $data['regions'] ?></p>      
-                <?php 
-                $images = json_decode($data['image_travel'], true);
-                if ($images) {
-                    $firstImage = $images[0]; 
-                    // $time = date('H:i', strtotime($data['date']));
-                    $date = date('Y-m-d', strtotime($data['date']));
-                    ?>
-                     <div class="img">
-                        <img src="<?php echo $firstImage['file_path'] ?>" alt="">
-                    </div>
-                 <?php }?>
-                 <div class="box-editor bottom-top">
-                     <div class="edit-pen fower" title="ถูกใจ" onclick="linkPath(''); ">
-                       <i class="bi bi-emoji-heart-eyes-fill"></i> <?php echo $data['travel_view']?>
-                     </div>
-                     <div class="edit-pen fower" title="ถูกใจ" onclick="linkPath(''); ">
-                      <p> <i class="bi bi-calendar-date"></i> <?php echo $date?></p>
-                     </div>
-                 </div>
-            </div>
-            <?php }
-        } ?>
-    </div>
-    </div>
-    <div class="title-box-hit">
-    <div class="box-title">
         <h4>มาใหม่</h4>
-        <h5 onclick="linkPath('new-travel')">ดูทั้งหมด</h5>
+        <h5 onclick="linkPath('/')">ย้อนกลับ</h5>
     </div>
     <div class="grid-container" id="grid-container">
      <?php 
-        $count = 0 ;
-        foreach ($travel_all_new_date as $data) { 
-         $url_path = "detail-travel?id=" . $data['_id'];
-         if($data['status_allow'] === 1 && $count < 5) {
-            $count++ ;
-        ?>
-        
-        <div class="grid-item " id="grid-item" onclick="linkPath('<?php echo $url_path?>')">
-                <?php echo $data['travel_name'] ?>
-                <p style="display:none"><?php echo $data['category'] ?></p>      
-                <p style="display:none"><?php echo $data['previnces'] ?></p>      
-                <p style="display:none"><?php echo $data['regions'] ?></p>      
-                <?php 
-                $images = json_decode($data['image_travel'], true);
-                if ($images) {
-                    $firstImage = $images[0]; 
-                    // $time = date('H:i', strtotime($data['date']));
-                    $date = date('Y-m-d', strtotime($data['date']));
-                    ?>
-                     <div class="img">
-                        <img src="<?php echo $firstImage['file_path'] ?>" alt="">
-                    </div>
-                 <?php }?>
-                 <div class="box-editor bottom-top">
-                     <div class="edit-pen fower" title="ถูกใจ" onclick="linkPath(''); ">
-                       <i class="bi bi-emoji-heart-eyes-fill"></i> <?php echo $data['travel_view']?>
-                     </div>
-                     <div class="edit-pen fower" title="ถูกใจ" onclick="linkPath(''); ">
-                      <p> <i class="bi bi-calendar-date"></i> <?php echo $date?></p>
-                     </div>
-                 </div>
-            </div>
-      <?php }
-       
-       } ?>
-    </div>
-    </div>
-    <div class="title-box-hit">
-    <div class="box-title">
-        <h4>รวมแหล่งท้องเที่ยว</h4>
-        <h5 onclick="linkPath('travel-all')">ดูทั้งหมด</h5>
-    </div>
-    <div class="grid-container" id="grid-container">
-     <?php 
-        $count = 0 ;
         foreach ($travel_all as $data) { 
          $url_path = "detail-travel?id=" . $data['_id'];
-         if($data['status_allow'] === 1 && $count < 20) {
-            $count++ ;
+         if($data['status_allow'] === 1) {
+           
         ?>
         
         <div class="grid-item " id="grid-item" onclick="linkPath('<?php echo $url_path?>')">

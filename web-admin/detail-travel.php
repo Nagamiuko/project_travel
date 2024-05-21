@@ -2,7 +2,7 @@
 session_start();
 error_reporting(0);
 require 'api/db/db.php';
-require 'api/db/env-config.php';
+require __DIR__ . "/../env-config.php";
 require 'head.php';
 $dataTravel = [] ;
 $dataComment = [] ;

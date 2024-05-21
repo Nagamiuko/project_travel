@@ -1,13 +1,13 @@
 <?php
 session_start();
-require 'database/db.php';
+require 'api/db/db.php';
 // ตรวจสอบว่าผู้ใช้เข้าสู่ระบบหรือไม่
 // if (!isset($_SESSION['_id'])) {
 //     header('Location: index.php');
 //     exit;
 // }
 
-$user_id = $_SESSION['_id'];
+$user_id = $_GET['id'];
 echo $user_id;
 //ตรวจสอบว่ามีการส่งค่า post มาหรือไม่
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $avatarFileName = null;
     $targetFilePath = null;
     if ($avatar && $avatar['error'] == 0) {
-        $targetDir = "uploads/avatar/";
+        $targetDir = "../uploads/avatar/";
         $avatarFileName = basename($avatar['name']);
         $targetFilePath = $targetDir . $avatarFileName;
         $fileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
@@ -75,6 +75,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // echo "<script>alert('Upload failed.');</script>";
     session_reset();
-    echo "<script>window.location.href='/';</script>";
+    echo "<script>window.location.href='/web-admin/';</script>";
     exit;
 }
